@@ -1,0 +1,54 @@
+@page "/todo"
+
+<PageTitle>Todo</PageTitle>
+
+<Container>
+    <Card>
+        <CardBody>
+
+            <Field>
+                <TextInput @bind-Value="newTodo" Placeholder="Tambah todo..." />
+            </Field>
+
+            <Button Color="Color.Primary" Clicked="AddTodo">
+                Tambah
+            </Button>
+
+            <ListGroup Class="mt-3">
+                @foreach (var todo in todos)
+                {
+                    <ListGroupItem>
+                        @todo
+
+                        <Button Color="Color.Danger"
+                                Class="float-end"
+                                Clicked="@(() => RemoveTodo(todo))">
+                            ❌
+                        </Button>
+
+                    </ListGroupItem>
+                }
+            </ListGroup>
+
+        </CardBody>
+    </Card>
+</Container>
+
+@code {
+    List<string> todos = new();
+    string newTodo = "";
+
+    void AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            todos.Add(newTodo);
+            newTodo = "";
+        }
+    }
+
+    void RemoveTodo(string todo)
+    {
+        todos.Remove(todo);
+    }
+}
